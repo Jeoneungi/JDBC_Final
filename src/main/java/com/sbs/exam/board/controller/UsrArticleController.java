@@ -1,26 +1,31 @@
 package com.sbs.exam.board.controller;
 
-import com.sbs.exam.board.container.Container;
-import com.sbs.exam.board.dto.Article;
+import com.sbs.exam.board.Article;
+import com.sbs.exam.board.Rq;
 import com.sbs.exam.board.service.ArticleService;
+import com.sbs.exam.board.util.DBUtil;
+import com.sbs.exam.board.util.SecSql;
 
+import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
-import static com.sbs.exam.board.container.Container.rq;
-
-public class UsrArticleController {
+public class UsrArticleController extends Controller {
   private ArticleService articleService;
 
-  public UsrArticleController() {
-    articleService = Container.articleService;
+  public UsrArticleController(Connection conn, Scanner sc, Rq rq) {
+    super(sc, rq);
+    articleService = new ArticleService(conn);
   }
 
   public void doWrite() {
     System.out.println("== 게시물 등록 ==");
     System.out.printf("제목 : ");
-    String title = Container.scanner.nextLine();
+    String title = sc.nextLine();
     System.out.printf("내용 : ");
-    String content = Container.scanner.nextLine();
+    String content = sc.nextLine();
 
     int id = articleService.write(title, content);
 
@@ -83,9 +88,9 @@ public class UsrArticleController {
     }
 
     System.out.printf("새 제목 : ");
-    String title = Container.scanner.nextLine();
+    String title = sc.nextLine();
     System.out.printf("새 내용 : ");
-    String content = Container.scanner.nextLine();
+    String content = sc.nextLine();
 
     articleService.update(id, title, content);
 

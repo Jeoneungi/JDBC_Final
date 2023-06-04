@@ -1,4 +1,4 @@
-package com.sbs.exam.board.dto;
+package com.sbs.exam.board;
 
 import java.util.Map;
 

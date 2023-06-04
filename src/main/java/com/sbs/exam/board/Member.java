@@ -1,4 +1,4 @@
-package com.sbs.exam.board.dto;
+package com.sbs.exam.board;
 
 import java.util.Map;
 
@@ -9,7 +9,6 @@ public class Member {
   public String loginId;
   public String loginPw;
   public String name;
-
   public String getLoginId() {
     return loginId;
   }
@@ -22,6 +21,7 @@ public class Member {
     return name;
   }
 
+
   public Member(Map<String, Object> articleMap) {
     this.id = (int) articleMap.get("id");
     this.regDate = (String) articleMap.get("regDate");
@@ -30,7 +30,6 @@ public class Member {
     this.loginPw = (String) articleMap.get("loginPw");
     this.name = (String) articleMap.get("name");
   }
-
   @Override
   public String toString() {
     return "Member{" +

@@ -1,4 +1,4 @@
-package com.sbs.exam.board.dto;
+package com.sbs.exam.board;
 
 import com.sbs.exam.board.util.Util;
 

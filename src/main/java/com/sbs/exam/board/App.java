@@ -3,22 +3,21 @@ package com.sbs.exam.board;
 import com.sbs.exam.board.container.Container;
 import com.sbs.exam.board.controller.UsrArticleController;
 import com.sbs.exam.board.controller.UsrMemberController;
-import com.sbs.exam.board.dto.Rq;
+import com.sbs.exam.board.util.DBUtil;
+import com.sbs.exam.board.util.SecSql;
 
 import java.sql.*;
 import java.util.*;
 
 public class App {
   public void run() {
-    Container.scanner = new Scanner(System.in);
-    Container.init();
+    Scanner sc = Container.scanner;
 
     while (true) {
       System.out.printf("명령어) ");
-      String cmd = Container.scanner.nextLine();
+      String cmd = sc.nextLine();
 
       Rq rq = new Rq(cmd);
-      Container.rq = new Rq(cmd);
 
       // DB 연결 시작
       Connection conn = null;
@@ -36,11 +35,8 @@ public class App {
       try {
         conn = DriverManager.getConnection(url, "root", "");
 
-        Container.conn = conn;
-
         // 로직에 실행부분
-
-        action(Container.rq);
+        action(rq, conn, sc);
 
       } catch (SQLException e) {
         System.out.println("예외 : MySQL 드라이버 로딩 실패");
@@ -58,25 +54,27 @@ public class App {
       // DB 연결 끝
     }
 
-    Container.scanner.close();
+    sc.close();
   }
 
+  private void action(Rq rq, Connection conn, Scanner sc) {
+    UsrArticleController usrArticleController = new UsrArticleController(conn, sc, rq);
+    UsrMemberController usrMemberController = new UsrMemberController(conn, sc, rq);
 
-  private void action(Rq rq) {
     if (rq.getUrlPath().equals("/usr/article/write")) {
-      Container.usrArticleController.doWrite();
+      usrArticleController.doWrite();
     } else if (rq.getUrlPath().equals("/usr/article/list")) {
-      Container.usrArticleController.showList();
+      usrArticleController.showList();
     } else if (rq.getUrlPath().equals("/usr/article/detail")) {
-      Container.usrArticleController.showDetail();
+      usrArticleController.showDetail();
     } else if (rq.getUrlPath().equals("/usr/article/modify")) {
-      Container.usrArticleController.doModify();
+      usrArticleController.doModify();
     } else if (rq.getUrlPath().equals("/usr/article/delete")) {
-      Container.usrArticleController.doDelete();
+      usrArticleController.doDelete();
     } else if (rq.getUrlPath().equals("/usr/member/join")) {
-      Container.usrMemberController.join();
+      usrMemberController.join();
     } else if (rq.getUrlPath().equals("/usr/member/login")) {
-      Container.usrMemberController.login();
+      usrMemberController.login();
     } else if (rq.getUrlPath().equals("/exit")) {
       System.out.println("프로그램 종료");
       System.exit(0);
