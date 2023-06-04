@@ -19,7 +19,7 @@ public class JDBCSelectTest {
 
       String url = "jdbc:mysql://127.0.0.1:3306/text_board?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
 
-      conn = DriverManager.getConnection(url, "sbsst", "sbs123414");
+      conn = DriverManager.getConnection(url, "root", "");
 
       String sql = "SELECT *";
       sql += " FROM article";
